@@ -72,7 +72,7 @@ def make_update(lines, traces):
 
 
 def initialize():
-    shape = SHAPES[0] # ellipse
+    shape = SHAPES[2] # heart
     original_shape = image_to_complex_array(shape, num_points=100, scale=300)
     initial_vector = np.fft.fftshift(
         np.fft.fft(original_shape) / len(original_shape))
