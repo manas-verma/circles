@@ -1,4 +1,5 @@
-import numpy as np
+import ruspy as rp
+from math import pi
 import cmath
 
 
@@ -11,7 +12,7 @@ def complex_numbers_on_unit_circle(num_points):
         complex_number = cmath.rect(1, angle)
         complex_numbers.append(complex_number)
 
-    return np.array(complex_numbers)
+    return rp.array(complex_numbers)
 
 
 def complex_numbers_on_ellipse(num_points, a, b):
@@ -25,28 +26,28 @@ def complex_numbers_on_ellipse(num_points, a, b):
         complex_number = x + y * 1j
         complex_numbers.append(complex_number)
 
-    return np.array(complex_numbers)
+    return rp.array(complex_numbers)
 
 
 def complex_numbers_heart(num_points, size):
-    t = np.linspace(0, 2 * np.pi, num_points)
-    x = size * (16 * np.sin(t) ** 3) / 16
-    y = size * (13 * np.cos(t) - 5 * np.cos(2 * t) -
-                2 * np.cos(3 * t) - np.cos(4 * t)) / 16
+    t = rp.linspace(0, 2 * pi, num_points)
+    x = size * (16 * rp.sin(t) ** 3) / 16
+    y = size * (13 * rp.cos(t) - 5 * rp.cos(2 * t) -
+                2 * rp.cos(3 * t) - rp.cos(4 * t)) / 16
 
     complex_numbers = [complex(x[i], y[i]) for i in range(num_points)]
-    return np.array(complex_numbers)
+    return rp.array(complex_numbers)
 
 
 def complex_numbers_star(num_points, num_arms):
-    t = np.linspace(0, 2 * np.pi, num_points)
+    t = rp.linspace(0, 2 * pi, num_points)
     # Varying radius creates the star effect
-    r = (0.9 + 0.1 * np.cos(num_arms * t))
-    x = r * np.cos(t)
-    y = r * np.sin(t)
+    r = (0.9 + 0.1 * rp.cos(num_arms * t))
+    x = r * rp.cos(t)
+    y = r * rp.sin(t)
 
     complex_numbers = [complex(x[i], y[i]) for i in range(num_points)]
-    return np.array(complex_numbers)
+    return rp.array(complex_numbers)
 
 
 def complex_numbers_eighth_note():
@@ -64,7 +65,7 @@ def complex_numbers_eighth_note():
         (0, 6),  # Top of the stem
     ]
     complex_numbers = [complex(x, y) for x, y in points]
-    return np.array(complex_numbers) * 0.1
+    return rp.array(complex_numbers) * 0.1
 
 
 def image_to_complex_array(shape, num_points=10, scale=2.0):

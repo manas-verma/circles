@@ -5,7 +5,7 @@ from constants import ORIGIN, WIDTH, HEIGHT, YELLOW, RED, ROTATION_SPEED, MAX_TR
 from math import cos, log, sin, radians, pi
 from create_shape import image_to_complex_array
 from line import LinkedLine
-import numpy as np
+import ruspy as rp
 
 
 def create_trace(last_line):
@@ -26,16 +26,18 @@ def draw_original_shape(original_shape):
 
 def create_linked_lines(initial_vector):
     N = len(initial_vector)
-    lines = []
-    prev_line = None
     values_and_rates = []
-    for fourier_coefficient in range(-N//2, N//2):
-        rate = ROTATION_SPEED * 2 * pi * fourier_coefficient / N
-        complex_value = initial_vector[fourier_coefficient + N//2]
+    for fourier_coefficient in range(N):
+        coef = fourier_coefficient if fourier_coefficient < N // 2 else fourier_coefficient - N
+        # coef = fourier_coefficient // 2 if fourier_coefficient % 2 == 0 else -fourier_coefficient // 2
+        rate = ROTATION_SPEED * 2 * pi * coef / N
+        complex_value = initial_vector[fourier_coefficient]
         values_and_rates.append((complex_value, rate))
 
     values_and_rates.sort(key=lambda x: abs(x[1]), reverse=False)
 
+    lines = []
+    prev_line = None
     for (value, rate) in values_and_rates:
         line = LinkedLine(value, rate, prev_line)
         lines.append(line)
@@ -72,10 +74,9 @@ def make_update(lines, traces):
 
 
 def initialize():
-    shape = SHAPES[2] # heart
+    shape = SHAPES[2]  # heart
     original_shape = image_to_complex_array(shape, num_points=100, scale=300)
-    initial_vector = np.fft.fftshift(
-        np.fft.fft(original_shape) / len(original_shape))
+    initial_vector = rp.fft(original_shape) / len(original_shape)
     lines = create_linked_lines(initial_vector)
     traces = []
 
